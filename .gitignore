@@ -1,0 +1,22 @@
+# ===== Spring Boot / Maven =====
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== Logs =====
+*.log
+*.pid
+
+# ===== H2 / DB files =====
+data/
+*.db
+*.mv.db
+*.trace.db
+
+# ===== IDE files =====
+.idea/
+.vscode/
+*.iml
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
