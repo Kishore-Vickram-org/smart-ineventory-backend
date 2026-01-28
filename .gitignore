@@ -20,3 +20,21 @@ data/
 # ===== OS files =====
 .DS_Store
 Thumbs.db
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment files
+.env
+
+# Logs
+*.log
+*.pid
+.frontend.pid
+
+# OS
+.DS_Store
+Thumbs.db
