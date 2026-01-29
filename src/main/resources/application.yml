@@ -18,6 +18,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      settings:
+        web-allow-others: true
 
 management:
   endpoints:
@@ -35,3 +37,4 @@ app:
       - http://127.0.0.1:*
   seed:
     enabled: false
+    
