@@ -1,14 +1,14 @@
-# Base image with Java 17
-FROM eclipse-temurin:17-jdk-alpine
+# Use Java 21 base image
+FROM eclipse-temurin:21-jdk
 
-# Set working directory inside container
+# Set working directory
 WORKDIR /app
 
-# Copy Spring Boot JAR into container
-COPY target/*.jar app.jar
+# Copy the jar file into the container
+COPY target/resort-crm-backend.jar app.jar
 
-# Expose application port
-EXPOSE 8088
+# Expose port
+EXPOSE 8080
 
-# Run Spring Boot app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the app
+ENTRYPOINT ["java","-jar","app.jar"]
