@@ -1,5 +1,14 @@
-FROM eclipse-temurin:21-jdk-alpine
+# Base image with Java 17
+FROM eclipse-temurin:17-jdk-alpine
+
+# Set working directory inside container
 WORKDIR /app
-COPY target/inventory-0.0.1-SNAPSHOT.jar app.jar
+
+# Copy Spring Boot JAR into container
+COPY target/*.jar app.jar
+
+# Expose application port
 EXPOSE 8081
+
+# Run Spring Boot app
 ENTRYPOINT ["java", "-jar", "app.jar"]
