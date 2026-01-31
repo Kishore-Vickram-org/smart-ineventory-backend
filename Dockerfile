@@ -1,14 +1,8 @@
-# Use Java 21 base image
-FROM eclipse-temurin:21-jdk
-
-# Set working directory
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
-# Copy the jar file into the container
-COPY target/resort-crm-backend.jar app.jar
+# Copy the EXACT jar name
+COPY target/inventory-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port
 EXPOSE 8080
-
-# Run the app
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
