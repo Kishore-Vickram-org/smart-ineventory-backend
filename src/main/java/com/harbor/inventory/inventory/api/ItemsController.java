@@ -35,8 +35,6 @@ public class ItemsController {
         item.setSku(request.sku());
         item.setName(request.name());
         item.setDescription(request.description());
-        item.setQuantity(request.quantity());
-        item.setUnit(request.unit());
         return toResponse(inventoryService.createItem(item, request.locationId()));
     }
 
@@ -45,8 +43,7 @@ public class ItemsController {
         Item patch = new Item();
         patch.setName(request.name());
         patch.setDescription(request.description());
-        patch.setUnit(request.unit());
-        return toResponse(inventoryService.updateItem(id, patch, request.locationId(), request.quantity()));
+        return toResponse(inventoryService.updateItem(id, patch, request.locationId()));
     }
 
     @DeleteMapping("/{id}")
@@ -65,7 +62,7 @@ public class ItemsController {
         if (item.getLocation() != null) {
             location = LocationsController.toResponse(item.getLocation());
         }
-        return new ItemResponse(item.getId(), item.getSku(), item.getName(), item.getDescription(), item.getQuantity(), item.getUnit(), location);
+        return new ItemResponse(item.getId(), item.getSku(), item.getName(), item.getDescription(), location);
     }
 
     static MovementResponse toResponse(StockMovement movement) {

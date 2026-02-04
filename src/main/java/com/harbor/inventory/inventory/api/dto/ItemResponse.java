@@ -5,8 +5,6 @@ public record ItemResponse(
         String sku,
         String name,
         String description,
-        long quantity,
-        String unit,
         LocationResponse location
 ) {
 }
