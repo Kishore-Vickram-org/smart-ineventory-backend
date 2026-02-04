@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
             return;
         }
 
-        // Safe dev defaults (covers Vite and most local setups)
+        // Safe dev defaults (covers most local setups)
         mapping.allowedOriginPatterns("*");
     }
 }

@@ -41,12 +41,12 @@ public class ItemsController {
     }
 
     @PutMapping("/{id}")
-    public ItemResponse update(@PathVariable long id, @RequestBody UpdateItemRequest request) {
+    public ItemResponse update(@PathVariable long id, @Valid @RequestBody UpdateItemRequest request) {
         Item patch = new Item();
         patch.setName(request.name());
         patch.setDescription(request.description());
         patch.setUnit(request.unit());
-        return toResponse(inventoryService.updateItem(id, patch, request.locationId()));
+        return toResponse(inventoryService.updateItem(id, patch, request.locationId(), request.quantity()));
     }
 
     @DeleteMapping("/{id}")

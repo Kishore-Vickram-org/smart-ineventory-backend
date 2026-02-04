@@ -46,7 +46,8 @@ Write-Host "Starting backend on port $Port..." -ForegroundColor Cyan
 Set-Location "$PSScriptRoot"
 
 # Build a bootable jar (more stable than keeping mvn spring-boot:run alive).
-& mvn -DskipTests -q package
+# Use clean to avoid Windows rename failures when a previous *.jar.original exists.
+& mvn -DskipTests -q clean package
 
 $jar = Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'target') -Filter '*.jar' |
   Where-Object { $_.Name -notlike '*-plain.jar' } |

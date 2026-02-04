@@ -92,13 +92,19 @@ public class InventoryService {
     }
 
     @Transactional
-    public Item updateItem(long id, Item patch, Long locationId) {
+    public Item updateItem(long id, Item patch, Long locationId, Long quantity) {
         Item existing = getItem(id);
         if (patch.getName() != null) {
             existing.setName(patch.getName());
         }
         if (patch.getDescription() != null) {
             existing.setDescription(patch.getDescription());
+        }
+        if (quantity != null) {
+            if (quantity < 0) {
+                throw new BadRequestException("Quantity cannot be negative");
+            }
+            existing.setQuantity(quantity);
         }
         if (patch.getUnit() != null) {
             existing.setUnit(patch.getUnit());
