@@ -102,3 +102,41 @@ docker compose up --build
 
 - Backend: `http://localhost:8080`
 - Health: `http://localhost:8080/actuator/health`
+
+## Challenges faced (and fixes)
+
+### 1) Frontend could not reach backend after deployment
+
+**Problem**: A deployed frontend (Vercel) cannot call `localhost`, so API requests fail if the client is configured for local URLs.
+
+**Fix**:
+
+- Host the backend publicly (Render/Railway/Azure/etc.).
+- Configure the frontend to use that backend base URL (for CRA: `REACT_APP_API_BASE_URL=https://<host>/api`).
+
+### 2) CORS errors during local/dev testing
+
+**Problem**: Browser blocked cross-origin requests when frontend and backend were on different origins.
+
+**Fix**:
+
+- CORS is configured on `/api/**` via `app.cors.*` settings.
+- For production, lock allowed origins down to your frontend domain.
+
+### 3) Docker port mapping confusion
+
+**Problem**: The backend listens on port **8080** inside the container. If you map a different host port, you must use that host port in your browser/API client.
+
+**Fix**:
+
+- Docker Compose (this repo): backend is exposed as `http://localhost:8080` via `8080:8080`.
+- If you run manually with a different host port, use `-p <hostPort>:8080`.
+
+### 4) “Operation violates data integrity constraints” (HTTP 409)
+
+**Problem**: Creating/updating data can fail with a constraint violation (for example, duplicate values where a unique constraint exists).
+
+**Fix**:
+
+- Use unique values (e.g., SKU/code) when creating records.
+- If testing repeatedly, reset the database state (in-memory H2 resets on restart; for file-based DB remove the local DB files or Docker volume).
