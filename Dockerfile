@@ -1,27 +1,20 @@
-# ---------- BUILD STAGE ----------
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-WORKDIR /app
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+WORKDIR /workspace
 
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Cache dependencies
+COPY pom.xml ./
+RUN mvn -q -DskipTests dependency:go-offline
 
+# Build
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn -q -DskipTests clean package \
+	&& ls -1 target/*.jar | grep -v '\\.jar\\.original$' | grep -v 'plain\\.jar$' | head -n 1 | xargs -I{} cp {} /workspace/app.jar
 
-# ---------- RUN STAGE ----------
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /workspace/app.jar /app/app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
 
-
-
-
-
-
-
-
-
+ENTRYPOINT ["java","-jar","/app/app.jar","--server.port=8080"]
