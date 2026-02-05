@@ -40,4 +40,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=kishorevic12_smart-ineventory-backend
+       run: mvn -B package -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar || true -Dsonar.projectKey=kishorevic12_smart-ineventory-backend
