@@ -9,7 +9,7 @@ import java.util.List;
 public class CorsProperties {
 
     /**
-     * Exact allowed origins (e.g. http://localhost:5173). Useful for production.
+     * Exact allowed origins (e.g. http://localhost:3000). Useful for production.
      */
     private List<String> allowedOrigins = new ArrayList<>();
 
