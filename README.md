@@ -141,6 +141,10 @@ docker compose up --build
 - Use unique values (e.g., SKU/code) when creating records.
 - If testing repeatedly, reset the database state (in-memory H2 resets on restart; for file-based DB remove the local DB files or Docker volume).
 
-# Screenshts
+# Screenshots
 
 ![Api text]_(https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Screenshot%20(478).png)
+
+# Presentation
+
+[Download Project PPT]_(https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Smart-Harbor-Inventory-System.pptx)
