@@ -144,6 +144,7 @@ docker compose up --build
 # Screenshots
 
 ![Api text]_(https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Screenshot%20(478).png)
+![Api text]_(https://github.com/Kishore-Vickram-org/smart-ineventory-backend/blob/main/Screenshot%20(606).png)
 
 # Presentation
 
