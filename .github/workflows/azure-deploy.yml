@@ -11,20 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+          distribution: temurin
+          java-version: 17
+          cache: maven
 
-      - name: Build with Maven
+      - name: Build project
         run: mvn clean package -DskipTests
 
-      - name: Upload Build Artifact
+      - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: springboot-app
@@ -35,7 +35,7 @@ jobs:
     needs: build
 
     steps:
-      - name: Download Build Artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: springboot-app
