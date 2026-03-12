@@ -1,5 +1,3 @@
-# Build and Deploy Spring Boot to Azure Web App
-
 name: Build and deploy JAR app to Azure Web App - smartinventorybackend
 
 on:
@@ -9,11 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
 
     steps:
       - name: Checkout repository
@@ -28,36 +23,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-app
-          path: target/*.jar
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    permissions:
-      id-token: write
-      contents: read
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: java-app
-
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_19B25BC37B1A4CFB8259005349945E96 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EDDAE66D8D65484687ACC69990B90688 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_526AABF3FD1646D1B41B195F031E1BF4 }}
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: smartinventorybackend
-          slot-name: Production
-          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_18D97C49A1814741A56F82D58A39016D }}
+          package: target/*.jar
