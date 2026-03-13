@@ -5,18 +5,18 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class GlobalCorsConfig implements WebMvcConfigurer {
 
     private final CorsProperties corsProperties;
 
-    public WebConfig(CorsProperties corsProperties) {
+    public GlobalCorsConfig(CorsProperties corsProperties) {
         this.corsProperties = corsProperties;
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        var mapping = registry.addMapping("/api/**")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        var mapping = registry.addMapping("/**")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(false)
                 .maxAge(3600);
@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
             return;
         }
 
-        // Safe dev defaults (covers most local setups)
+        // If nothing is configured, default to a permissive dev-friendly behavior.
         mapping.allowedOriginPatterns("*");
     }
 }

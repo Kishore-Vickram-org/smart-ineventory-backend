@@ -1,0 +1,5 @@
+app:
+  cors:
+    # Development-only: allow any origin.
+    allowed-origin-patterns:
+      - "*"

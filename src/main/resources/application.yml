@@ -32,3 +32,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+app:
+  cors:
+    # NOTE: CORS origins never include a path. This allows:
+    # https://Kishore-Vickram-org.github.io/smart-inventory-frontend
+    allowed-origins:
+      - "https://Kishore-Vickram-org.github.io"
