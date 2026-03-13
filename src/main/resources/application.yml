@@ -38,4 +38,7 @@ app:
     # NOTE: CORS origins never include a path. This allows:
     # https://Kishore-Vickram-org.github.io/smart-inventory-frontend
     allowed-origins:
+      # Hostnames are case-insensitive, but Spring matches origins by exact string.
+      # Keep both variants to avoid mismatches depending on how the browser reports Origin.
+      - "https://kishore-vickram-org.github.io"
       - "https://Kishore-Vickram-org.github.io"
