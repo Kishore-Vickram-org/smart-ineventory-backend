@@ -58,7 +58,9 @@ jobs:
       - name: Deploy to Azure App Service (Production)
         uses: azure/webapps-deploy@v3
         with:
-          app-name: inventory-backend
+          # Set this in GitHub repo "Variables" as AZURE_WEBAPP_NAME
+          # (Settings → Secrets and variables → Actions → Variables)
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
           slot-name: Production
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: app.jar
