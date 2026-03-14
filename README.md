@@ -8,7 +8,7 @@ Spring Boot REST API for Harbor Inventory.
 - Maven
 
 ## Run locally
-"?
+
 
 ### Option A: VS Code tasks (recommended)
 
@@ -19,7 +19,7 @@ From the VS Code task runner:
 - `Backend: Reset DB (delete backend/data)` (only relevant when using a file-based DB)
 
 The backend listens on `http://localhost:8080`.
-#kishooooooooooooooooooo
+
 ### Option B: PowerShell script
 
 From the repo root:
@@ -104,6 +104,30 @@ docker compose up --build
 - Backend: `http://localhost:8080`
 - Health: `http://localhost:8080/actuator/health`
 
+## Deploy to Azure (Backend)
+
+This repository is a **Spring Boot (Java)** backend. If you deploy it to an Azure App Service that is configured for **Node.js**, you will see a startup banner like:
+
+- `NodeJS quickstart` / `NodeJS Version : v...`
+
+That banner means the App Service **runtime stack is set to Node**, so Azure will try to start your app as a Node application.
+
+### App Service settings (Portal)
+
+- Create (or update) an App Service with runtime stack **Java 17** (Linux).
+- Ensure the app listens on the port provided by Azure.
+  - This repo already uses `server.port: ${PORT:${WEBSITES_PORT:8080}}` in `application.yml`.
+
+### GitHub Actions
+
+There are multiple Azure deploy workflows under `.github/workflows/`. If more than one is enabled, a single push can trigger **multiple deployments** to the same App Service.
+
+- Recommended: keep one workflow (for example `.github/workflows/azure-deploy.yml`) and disable/remove the others.
+
+### CORS for an Azure-hosted frontend
+
+If your frontend is hosted on Azure (Static Web Apps/App Service), add its origin to `app.cors.allowed-origins` (or set it via environment variables) so browsers can call this backend.
+
 ## Challenges faced (and fixes)
 
 ### 1) Frontend could not reach backend after deployment
@@ -144,12 +168,12 @@ docker compose up --build
 
 # Screenshots
 
-![Api text]_(https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Screenshot%20(478).png)
-![Api text]_(https://github.com/Kishore-Vickram-org/smart-ineventory-backend/blob/main/Screenshot%20(606).png)
+![Api text](https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Screenshot%20(478).png)
+![Api text](https://github.com/Kishore-Vickram-org/smart-ineventory-backend/blob/main/Screenshot%20(606).png)
 
 # Presentation
 
-[Download Project PPT]_(https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Smart-Harbor-Inventory-System.pptx)
+[Download Project PPT](https://github.com/kishorevic12/smart-ineventory-backend/blob/main/Smart-Harbor-Inventory-System.pptx)
 
 # Backend Link
 https://smart-ineventory-backend.onrender.com
