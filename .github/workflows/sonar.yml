@@ -1,16 +1,20 @@
-name: SonarQube Scan
+name: Sonar Scan Backend
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   sonar:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -21,10 +25,14 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build project
-        run: mvn -B clean verify
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
-      - name: Run Sonar Scan
-        run: mvn sonar:sonar \
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: Build Project
+        run: mvn clean verify
+
+      - name: Run Sonar Analysis
+        run: mvn clean verify sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
