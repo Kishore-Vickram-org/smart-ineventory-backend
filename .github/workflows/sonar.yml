@@ -1,4 +1,4 @@
-name: SonarQube Analysis
+name: SonarQube Backend Analysis
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   sonar:
-    name: SonarQube Scan
+    name: Sonar Scan
     runs-on: ubuntu-latest
 
     steps:
@@ -19,25 +19,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
-          node-version: 18
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Cache Maven Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
 
       - name: Build Project
-        run: npm run build
+        run: mvn -B clean verify
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v2
+        run: mvn sonar:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      - name: SonarQube Quality Gate
-        uses: SonarSource/sonarqube-quality-gate-action@v1
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
