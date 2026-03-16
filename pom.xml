@@ -25,7 +25,7 @@
 
  <dependencies>
 
-  <!-- Web API -->
+  <!-- Web -->
   <dependency>
    <groupId>org.springframework.boot</groupId>
    <artifactId>spring-boot-starter-web</artifactId>
@@ -43,14 +43,14 @@
    <artifactId>spring-boot-starter-data-jpa</artifactId>
   </dependency>
 
-  <!-- H2 Database (for development) -->
+  <!-- H2 -->
   <dependency>
    <groupId>com.h2database</groupId>
    <artifactId>h2</artifactId>
    <scope>runtime</scope>
   </dependency>
 
-  <!-- PostgreSQL (for production later) -->
+  <!-- PostgreSQL -->
   <dependency>
    <groupId>org.postgresql</groupId>
    <artifactId>postgresql</artifactId>
@@ -78,6 +78,13 @@
    <plugin>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
+   </plugin>
+
+   <!-- Sonar Plugin -->
+   <plugin>
+    <groupId>org.sonarsource.scanner.maven</groupId>
+    <artifactId>sonar-maven-plugin</artifactId>
+    <version>4.0.0.4121</version>
    </plugin>
 
   </plugins>
