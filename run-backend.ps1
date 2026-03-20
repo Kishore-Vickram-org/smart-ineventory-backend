@@ -10,8 +10,23 @@ $errFile = Join-Path $PSScriptRoot 'backend.err.log'
 
 function Test-HttpOk([string]$Url) {
   try {
-    $res = Invoke-WebRequest -UseBasicParsing -Uri $Url -TimeoutSec 2
-    return $res.StatusCode -ge 200 -and $res.StatusCode -lt 300
+    $res = Invoke-WebRequest -UseBasicParsing -Uri $Url -TimeoutSec 2 -Headers @{ Accept = 'application/vnd.spring-boot.actuator.v3+json, application/json' }
+    if ($res.StatusCode -lt 200 -or $res.StatusCode -ge 300) {
+      return $false
+    }
+
+    $contentType = $res.Headers['Content-Type']
+    if (-not $contentType -or $contentType -notmatch 'json') {
+      return $false
+    }
+
+    $body = $res.Content
+    if ($body -is [byte[]]) {
+      $body = [System.Text.Encoding]::UTF8.GetString($body)
+    }
+
+    $json = $body | ConvertFrom-Json -ErrorAction Stop
+    return $null -ne $json.status -and $json.status -eq 'UP'
   } catch {
     return $false
   }
@@ -48,6 +63,10 @@ Set-Location "$PSScriptRoot"
 # Build a bootable jar (more stable than keeping mvn spring-boot:run alive).
 # Use clean to avoid Windows rename failures when a previous *.jar.original exists.
 & mvn -DskipTests -q clean package
+if ($LASTEXITCODE -ne 0) {
+  Write-Host 'Maven build failed. See output above for details.' -ForegroundColor Red
+  exit $LASTEXITCODE
+}
 
 $jar = Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'target') -Filter '*.jar' |
   Where-Object { $_.Name -notlike '*-plain.jar' } |
